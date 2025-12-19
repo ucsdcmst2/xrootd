@@ -1,0 +1,164 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ $.Values.namespace }} 
+  name: xrootd-{{ $.Values.siteID }}-{{ $.Values.nodeID }}-{{ $.Values.subnetID }}-{{ $.Values.ipID }}
+  labels:
+    app: xrootd-{{ $.Values.siteID }}-{{ $.Values.nodeID }}-{{ $.Values.subnetID }}-{{ $.Values.ipID }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xrootd-{{ $.Values.siteID }}-{{ $.Values.nodeID }}-{{ $.Values.subnetID }}-{{ $.Values.ipID }}
+  template:
+    metadata:
+      labels:
+        app: xrootd-{{ $.Values.siteID }}-{{ $.Values.nodeID }}-{{ $.Values.subnetID }}-{{ $.Values.ipID }}
+      annotations:
+        k8s.v1.cni.cncf.io/networks: '[
+            {{- range $nets := $.Values.nets }}
+            { 
+                "name": "{{ $nets.multus }}",
+                {{- if $nets.mac }}
+                "ips": ["{{ $nets.ip }}"],
+                "mac": "{{ $nets.mac }}"
+                {{ else }}
+                "ips": ["{{ $nets.ip }}"]
+                {{- end }}
+            },
+            {{- end }}
+            { 
+                "name": "{{ $.Values.multus }}",
+                "ips": ["{{ $.Values.ip }}"],
+                {{- if $.Values.mac }}
+                "mac": "{{ $.Values.mac }}",
+                {{- end }}
+                "default-route": ["{{ $.Values.default_route}}"] 
+            }
+        ]'
+    spec:
+      securityContext:
+        fsGroup: 10940
+      tolerations:
+        #        - key: "nautilus.io/reservation"
+        #          operator: "Equal"
+        #          value: "scinet"
+        #          effect: "NoSchedule"
+      containers:
+        - name: xrootd-{{ $.Values.siteID }}-{{ $.Values.nodeID }}-{{ $.Values.subnetID }}-{{ $.Values.ipID }}
+          {{- if eq .Values.role "manager" }}
+          image: hub.opensciencegrid.org/sense/sense-redir:el8-20250911
+          {{ else }}
+          image: hub.opensciencegrid.org/ddavila/xrootd/xrootd-multiuser:20251126    
+          #image: hub.opensciencegrid.org/opensciencegrid/xrootd-standalone:24-release-20250921-0815
+          {{- end }}
+          env:
+            # This env var must be set in order for the cmsd process to be started by the image
+            # The redirector value is set in the values file
+            - name: XC_LOCAL_REDIRECTORS
+              value: foo
+          ports:
+            - containerPort: 1094
+          resources:
+            limits:
+              cpu: {{ $.Values.cores_lim }}
+              memory: {{ $.Values.memory_lim }}
+            requests:
+              cpu: {{ $.Values.cores_req }}
+              memory: {{ $.Values.memory_req }}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - CAP_SETUID
+              - CAP_SETGID
+              - CAP_SETFCAP
+          volumeMounts:
+            #- name: tmpfs-volume
+            - name: hostpath-ceph
+              mountPath: /rucio/
+            - name: xroot-conf
+              mountPath: /etc/grid-security/grid-mapfile
+              subPath: grid-mapfile
+            - name: xroot-conf
+              mountPath: /etc/xrootd/Authfile
+              subPath: Authfile
+            - name: xroot-conf
+              mountPath: /etc/xrootd/xrootd-standalone.cfg
+              subPath: xrootd-standalone.cfg
+            - name: xroot-conf
+              mountPath: /etc/xrootd/scitokens.cfg
+              subPath: scitokens.cfg
+            - name: hostpath-passwd
+              mountPath: /etc/passwd
+            - name: hostpath-group
+              mountPath: /etc/group
+            - name: macaroon
+              mountPath: /etc/xrootd/macaroon-secret
+              subPath: macaroon-secret
+            - name: certs
+              mountPath: /etc/grid-security/hostcert.pem
+              subPath: hostcert.pem
+            - name: certs
+              mountPath: /etc/grid-security/hostkey.pem
+              subPath: hostkey.pem
+      volumes:
+      - name: hostpath-ceph
+        hostPath:
+          path: /ceph/cms_ech/sense-tests/
+          type: Directory
+      - name: tmpfs-volume
+        emptyDir:
+          # This specifies the tmpfs medium for the volume.
+          medium: Memory 
+      - name: hostpath-passwd
+        hostPath:
+          path: /etc/passwd
+          type: File
+      - name: hostpath-group
+        hostPath:
+          path: /etc/group
+          type: File
+      - name: xroot-conf
+        configMap:
+          name: xroot-config
+          defaultMode: 0720
+          items:
+          - key: grid-mapfile
+            path: grid-mapfile
+          - key: Authfile
+            path: Authfile
+          - key: xrootd-standalone.cfg
+            path: xrootd-standalone.cfg
+          - key: scitokens.cfg
+            path: scitokens.cfg
+              #      - name: etc-passwd
+              #        secret:
+              #          defaultMode: 420
+              #          items:
+              #          - key: passwd
+              #            path: passwd
+              #          secretName: etc-passwd
+      - name: macaroon
+        secret:
+          defaultMode: 420
+          items:
+          - key: macaroon-secret
+            path: macaroon-secret
+          secretName: macaroon
+      - name: certs
+        secret:
+          defaultMode: 420
+          items:
+          - key: hostcert.pem
+            path: hostcert.pem
+          - key: hostkey.pem
+            path: hostkey.pem
+          secretName: {{ $.Values.certs }}
+            #      dnsConfig:
+            #        nameservers:
+            #          - 2001:4860:4860::8844
+            #          - 2001:4860:4860::8888
+            #      dnsPolicy: None
+      nodeSelector:
+          kubernetes.io/hostname: {{ $.Values.hostname }}

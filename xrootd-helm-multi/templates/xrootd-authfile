@@ -1,0 +1,57 @@
+{{- $myConfigMap := lookup "v1" "ConfigMap" .Release.Namespace "xroot-authfile" -}}
+{{- if not $myConfigMap -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ $.Values.namespace }} 
+  name: xroot-authfile
+data:
+  Authfile: |
+    # CMS users have full access to their own directory, and read for CMS
+    # While xrootd allows the user to *attempt* any operation - even in other user's
+    # home directories - the underlying filesystem also has its internal permissions and will further
+    # limit things.
+    g /cms /store/temp/user/ a /store lr
+    
+    t writecmsdata /store/backfill/         a \
+                   /store/data/             a \
+                   /store/express/          a \
+                   /store/generator/        a \
+                   /store/group/rucio/      a \
+                   /store/hidata/           a \
+                   /store/himc/             a \
+                   /store/hirelval/         a \
+                   /store/mc/               a \
+                   /store/relval/           a \
+                   /store/results/          a \
+                   /store/temp/             a \
+                   /store/test/loadtest/    a \
+                   /store/test/rucio/       a \
+                   /store/unmerged/         a \
+                   /store/user/rucio/       a
+    
+    
+    t readcmsdata  /store/                   lr
+    
+    # cmsprod have full access to managed CMS data, and read for CMS
+    u cmswriter writecmsdata readcmsdata
+    
+    # lcgadmin can write into /store/user/sam and /store/unmerged/SAM.
+    u lcgadmin readcmsdata /store/user/sam/ a /store/unmerged/SAM a
+    
+    # DTEAM has read/write access to its own files
+    u dteam /user/dteam/protected -a /user/dteam a
+    
+    # ddavila 2023-03-13 dteamprod should have access both to /user/dteam and /user/dteam/protected
+    #u dteamprod /user/dteam/protected a
+    u dteamprod /user/dteam/ a
+    
+    # Users have full access to their own directory
+    u = /store/user/@=/ a
+    u tas /store/group/snt/ lr
+    
+    # ddavila 2022-06-08: Requested by Jonathan.
+    # Done for local groups at UCSD. Fine grain permissions will be managed via FS.
+    u * /store/group/ a
+{{- end }}
+
