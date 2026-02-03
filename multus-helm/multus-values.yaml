@@ -1,0 +1,31 @@
+subnets:
+   - id: "F011"
+     vlanId: 4000
+   - id: "F012"
+     vlanId: 4001
+   - id: "F013"
+     vlanId: 4002
+   - id: "F014"
+     vlanId: 4003
+   - id: "F015"
+     vlanId: 4004
+   - id: "F016"
+     vlanId: 4005
+   - id: "F017"
+     vlanId: 4006
+   - id: "F018"
+     vlanId: 4007
+   - id: "F019"
+     vlanId: 4008
+   - id: "F01A"
+     vlanId: 4009
+   - id: "F01B"
+     vlanId: 4010
+   - id: "F01C"
+     vlanId: 4011
+   - id: "F01D"
+     vlanId: 4012
+   - id: "F01E"
+     vlanId: 4013
+   - id: "F01F"
+     vlanId: 4014

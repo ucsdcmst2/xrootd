@@ -1,0 +1,27 @@
+namespace: "default"
+nodeID: "07"
+subnetID: "f011"
+ipID: "700"
+hostname: "dtn-07.t2.ucsd.edu"
+cores_req: 12
+cores_lim: 32
+memory_req: 64Gi
+memory_lim: 128Gi
+role: "server"
+redirector: "redir-f011.t2.ucsd.edu"
+certs: "certs-dtn-07"
+multus: "multus-f011"
+ip: "2001:48d0:6020:f011::700/64"
+mac: "4a:ad:38:2a:cf:9a"
+default_route: "2001:48d0:6020:f011::1"
+nets:
+      - multus: "multus-f012"
+        ip: "2001:48d0:6020:f012::700/64"
+        mac: "72:dc:19:11:40:33"
+      - multus: "multus-f013"
+        ip: "2001:48d0:6020:f013::700/64"
+        mac: "ae:0b:6e:4c:58:49"
+      - multus: "multus-f014"
+        ip: "2001:48d0:6020:f014::700/64"
+      - multus: "multus-f015"
+        ip: "2001:48d0:6020:f015::700/64"
