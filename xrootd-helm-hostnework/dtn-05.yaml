@@ -1,0 +1,10 @@
+namespace: "default"
+nodeID: "05"
+hostname: "dtn-05.t2.ucsd.edu"
+cores_req: 16
+cores_lim: 32
+memory_req: 64Gi
+memory_lim: 128Gi
+role: "server"
+redirector: "redir.t2.ucsd.edu"
+certs: "certs-dtn-05"

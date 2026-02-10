@@ -1,0 +1,243 @@
+{{- $myConfigMap := lookup "v1" "ConfigMap" .Release.Namespace "xroot-grid-mapfile" -}}
+{{- if not $myConfigMap -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ $.Values.namespace }} 
+  name: xroot-grid-mapfile
+data:
+  grid-mapfile: |
+    "/DC=org/DC=doegrids/OU=People/CN=Bockjoo Kim 740786" bockjoo
+    "/DC=org/DC=doegrids/OU=People/CN=David Evans 961858" dlevans
+    "/DC=org/DC=doegrids/OU=People/CN=Oliver Gutsche 103748" gutsche
+    "/DC=org/DC=doegrids/OU=People/CN=Kevin Burkett 892504" burkett
+    "/DC=org/DC=doegrids/OU=People/CN=Frank Wuerthwein 245161" fkw
+    "/DC=org/DC=doegrids/OU=People/CN=Elliot Lipeles 157637" lipeles
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=scodella/CN=654392/CN=Luca Scodellaro" scodella
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=vdutta/CN=696509/CN=Valentina Dutta" vdutta
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=wasser/CN=440447/CN=Steven Wasserbaech" wasser
+    "/DC=org/DC=doegrids/OU=People/CN=Kenichi Hatakeyama 360545" hatake
+    "/DC=org/DC=doegrids/OU=People/CN=Ricardo Magana-Villalba 98644" magania
+    "/DC=org/DC=doegrids/OU=People/CN=Robert Stringer 131299" stringer
+    "/DC=org/DC=doegrids/OU=People/CN=Saptaparna Bhattacharya 887917" sapta
+    "/DC=org/DC=doegrids/OU=People/CN=Yanyan Gao 418295" yygao
+    "/DC=org/DC=doegrids/OU=People/CN=Sue Ann Koay 20966" sakoay
+    "/C=BE/O=BEGRID/OU=VUB/OU=ELEM/CN=Steven Lowette" lowette
+    "/C=CH/O=CERN/OU=GRID/CN=Andre Georg Holzner 2853" aholz
+    "/C=IT/O=INFN/OU=Personal Certificate/L=Sns/CN=Giovanni Petrucciani" gpetrucc
+    "/DC=org/DC=doegrids/OU=People/CN=jean-roch vlimant 729105" vlimant
+    "/C=UK/O=eScience/OU=Bristol/L=IS/CN=david evans" dlevans
+    "/C=CH/O=CERN/OU=GRID/CN=James Lamb 0227" jlamb
+    "/DC=org/DC=doegrids/OU=People/CN=James G. Branson 980039" branson
+    "/DC=org/DC=doegrids/OU=People/CN=Sean Simon 537713" ssimon
+    "/DC=org/DC=doegrids/OU=People/CN=Lothar A. T. Bauerdick 113194" bauerdic
+    "/DC=org/DC=doegrids/OU=People/CN=Bockjoo Kim (UFlorida T2 Service) 606361" bockjoo
+    "/C=IT/O=INFN/OU=Personal Certificate/L=Milano Bicocca/CN=Giuseppe Cerati" cerati
+    "/DC=es/DC=irisgrid/O=ciemat/CN=Jose-Hernandez" hernan
+    "/DC=org/DC=doegrids/OU=People/CN=Ingo Bloch 12718" ibloch
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=sani/CN=559914/CN=Matteo Sani" matteo
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=paktinat/CN=609741/CN=Saeid Paktinat Mehdiabadi" paktinat
+    "/O=GRID-FR/C=FR/O=CNRS/OU=IPNL/CN=Eric Chabert" echabert
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=slava77/CN=658778/CN=Slava Krutelyov" slava77
+    "/DC=org/DC=doegrids/OU=People/CN=Matthew Norman 960680" mnorman
+    "/DC=org/DC=doegrids/OU=People/CN=Frank Wuerthwein 699373" fkw
+    "/DC=org/DC=doegrids/OU=People/CN=Ryan Kelley 339447" rwkelley
+    "/DC=org/DC=doegrids/OU=People/CN=Steven Lowette 739079" lowette
+    "/DC=org/DC=doegrids/OU=People/CN=Matthew LeBourgeois 290119" mwlebour
+    "/DC=org/DC=doegrids/OU=People/CN=Jacob Thomas Ribnik 434289" jribnik
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jlamb/CN=638489/CN=James Lamb" jlamb
+    "/DC=org/DC=doegrids/OU=People/CN=Dominique Fortin 645167" dfortin
+    "/DC=org/DC=doegrids/OU=People/CN=Lothar A.T. Bauerdick 301799" bauerdic
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=wto/CN=671055/CN=Wing To" wto
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jengbou/CN=636456/CN=Geng-Yuan Jeng" jengbou
+    "/DC=org/DC=doegrids/OU=People/CN=Finn O'Neill Rebassoo 238694" rebassoo
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=holzner/CN=483283/CN=Andre Georg Holzner" aholz
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jfernan/CN=529280/CN=Javier Fernandez Menendez" jfernan2
+    "/DC=org/DC=doegrids/OU=People/CN=Jared Sturdy 730795" sturdy
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=dalfonso/CN=583551/CN=Mariarosaria D'Alfonso" dalfonso
+    "/DC=org/DC=doegrids/OU=People/CN=roberto rossin 741245" rossin
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mpieri/CN=422674/CN=Marco Pieri" mpieri
+    "/DC=org/DC=doegrids/OU=People/CN=Constantinos Melachrinos 676559" noachr
+    "/DC=org/DC=doegrids/OU=People/CN=Johannes Muelmenstaedt 846719" jmuelmen
+    "/DC=org/DC=doegrids/OU=People/CN=Puneeth Kalavase 765847" kalavase
+    "/DC=org/DC=doegrids/OU=People/CN=Dominique Fortin 276866" dfortin
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hbakhshi/CN=658732/CN=Hamed Bakhshiansohi" hbakhshi
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=ajafari/CN=663485/CN=Abideh Jafari" ajafari
+    "/DC=org/DC=doegrids/OU=People/CN=Sanjay Padhi 496075" spadhi
+    "/DC=org/DC=doegrids/OU=People/CN=Boris Mangano 853555" bmangano
+    "/DC=org/DC=doegrids/OU=People/CN=Frank Golf 688184" fgolf
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pavlunin/CN=666803/CN=Victor Pavlunin" pavlunin
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=rranieri/CN=524541/CN=Riccardo Ranieri" riccardo
+    "/DC=org/DC=doegrids/OU=People/CN=Harold Nguyen 924852" nguyenh
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=fahim/CN=678421/CN=Ali Fahim" fahim
+    "/DC=org/DC=doegrids/OU=People/CN=Warren Andrews 171052" wandrews
+    "/DC=org/DC=doegrids/OU=People/CN=Adish Pradeep Vartak 58588" avartak
+    "/DC=org/DC=doegrids/OU=People/CN=Christoher Palmer 115007" capalmer
+    "/DC=org/DC=doegrids/OU=People/CN=Yanjun Tu 722160" yanjuntu
+    "/DC=org/DC=doegrids/OU=People/CN=Derek Barge 517280" dbarge
+    "/DC=org/DC=doegrids/OU=People/CN=Jeffrey D. Richman 890922" richman
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=dlevans/CN=638933/CN=Dave Evans" dlevans
+    "/DC=org/DC=doegrids/OU=People/CN=Johannes Muelmenstaedt 601057" jmuelmen
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=nguyenh/CN=671854/CN=Harold Nguyen" nguyenh
+    "/DC=org/DC=doegrids/OU=People/CN=Dmytro Kovalskyi 145052" dmytro
+    "/DC=org/DC=doegrids/OU=People/CN=Benjamin Henry Hooberman 212761" benhoob
+    "/DC=org/DC=doegrids/OU=People/CN=Ryan Kelley 922967" rwkelley
+    "/DC=ch/DC=cern/OU=Organic Units/OU=users/CN=gpetrucc/CN=632471/CN=Giovanni Petrucciani" gpetrucc
+    "/DC=org/DC=doegrids/OU=People/CN=Jaehyeok Yoo 749410" jaehyeok
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=fgior8/CN=662088/CN=Ferdinando Giordano" fgior8
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=gail/CN=399086/CN=Gail Hanson" gailgh
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hlliu/CN=638625/CN=Hongliang Liu" hlliu
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pbgeff/CN=696043/CN=Paul Geffert" pbgeff
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=cawest/CN=709677/CN=Christopher West" cawest
+    "/DC=org/DC=doegrids/OU=People/CN=Sergo Jindariani 444882" sergo
+    "/DC=org/DC=doegrids/OU=People/CN=Sergo Jindariani 886668" sergo
+    "/DC=org/DC=doegrids/OU=People/CN=Christopher A. George 405451" cgeorge
+    "/DC=org/DC=doegrids/OU=People/CN=Saptaparna Bhattacharya 164779" sapta
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=cerati/CN=661874/CN=Giuseppe Cerati" cerati
+    "/O=GRID-FR/C=FR/O=CNRS/OU=IPHC/CN=Eric Chabert" echabert
+    "/O=GRID-FR/C=FR/O=CNRS/OU=IPHC/CN=Caroline Collard" ccollard
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=haweber/CN=713242/CN=Hannsjorg Weber" haweber
+    "/DC=org/DC=doegrids/OU=People/CN=Benjamin Hooberman 349489" benhoob
+    "/DC=org/DC=doegrids/OU=People/CN=Kenichi Hatakeyama 442111" hatake
+    "/DC=org/DC=doegrids/OU=People/CN=Frank Golf 477004" fgolf
+    "/DC=org/DC=doegrids/OU=People/CN=Ian MacNeill 630087" imacneill
+    "/DC=org/DC=doegrids/OU=People/CN=Indara Suarez 781016" isuarez
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mmascher/CN=720897/CN=Marco Mascheroni" mmascher
+    "/DC=org/DC=doegrids/OU=People/CN=Alja Mrak Tadel 673206" alja
+    "/DC=org/DC=doegrids/OU=People/CN=Jacob Linacre 755824" linacre
+    "/DC=org/DC=doegrids/OU=People/CN=Jesse Heilman 941659" heilman
+    "/DC=org/DC=doegrids/OU=People/CN=Sergo Jindariani 485067" sergo
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=benhoob/CN=694790/CN=Benjamin Henry Hooberman" benhoob
+    "/DC=org/DC=doegrids/OU=People/CN=Verena Ingrid Martinez Outschoorn 514115" vimartin
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=emanuele/CN=669555/CN=Emanuele Di Marco" emanuele
+    "/DC=org/DC=doegrids/OU=People/CN=Christopher Palmer 115007" capalmer
+    "/DC=org/DC=doegrids/OU=People/CN=Ryan Ward Kelley 917941" rwkelley
+    "/DC=org/DC=doegrids/OU=People/CN=Charles Vince Welke 531513" cwelke
+    "/DC=org/DC=doegrids/OU=People/CN=Christopher A. George 437718" cgeorge
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mangano/CN=606898/CN=Boris Mangano" bmangano
+    "/DC=org/DC=doegrids/OU=People/CN=Frank Golf 338245" fgolf
+    "/DC=org/DC=doegrids/OU=People/CN=Jason Gran 479744" jgran
+    "/DC=org/DC=doegrids/OU=People/CN=Alexander Georges 435073" alex
+    "/DC=org/DC=doegrids/OU=People/CN=Javier Duarte 829892" woodson
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pjandir/CN=727748/CN=Pawandeep S Jandir" pjandir
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=rebassoo/CN=673313/CN=Finn O'Neill Rebassoo" rebassoo
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=yanjuntu/CN=692855/CN=Yanjun Tu" yanjuntu
+    "/C=TW/O=AP/OU=GRID/CN=Gouranga Kole 105330" gkole
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mmasciov/CN=720044/CN=Mario Masciovecchio" mmasciov
+    "/DC=org/DC=doegrids/OU=Services/CN=uscmspilot/cmssrv119.fnal.gov" cmswriter
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=olivito/CN=663475/CN=Dominick John Olivito" olivito
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=lowette/CN=583680/CN=Steven Lowette" lowette
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mullin/CN=710088/CN=Sam Mullin" mullin
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=efajardo/CN=722781/CN=Edgar Fajardo Hernandez" efajardo
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=molmedon/CN=743559/CN=Manuel Alejandro Olmedo Negrete" molmedon
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hatake/CN=661802/CN=Kenichi Hatakeyama" hatake
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=cwelke/CN=738057/CN=Charles Vincent Welke" cwelke
+    "/DC=com/DC=DigiCert-Grid/O=Open Science Grid/OU=People/CN=Christopher A. George 1210" cgeorge
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=dmytro/CN=658085/CN=Dmytro Kovalskyi" dmytro
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=fgolf/CN=677018/CN=Frank Golf" fgolf
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=macneill/CN=714122/CN=Ian Macneill" imacneill
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=kelley/CN=669873/CN=Ryan Ward Kelley" rwkelley
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jgran/CN=724752/CN=Jason Louis Gran" jgran
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=avartak/CN=669274/CN=Adish Vartak" avartak
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=gzevi/CN=657647/CN=Giovanni Zevi Della Porta" gzevi
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=esmaeel/CN=749154/CN=Esmaeel Eskandari" esmaeel
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=ald77/CN=696741/CN=Adam Dishaw" ald77
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jbradmil/CN=735863/CN=John Bradmiller-Feld" jbradmil
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=holzman/CN=654016/CN=Burt Holzman" burt
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=schenara/CN=755799/CN=Shirin Chenarani" schenara
+    "/C=DE/O=GermanGrid/OU=uni-hamburg/CN=Lukas Vanelderen" lveldere
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hmei/CN=748201/CN=Hualin Mei" hmei
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=duanders/CN=751456/CN=Dustin James Anderson" duanders
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=linacre/CN=721650/CN=Jacob Thomas Linacre" linacre
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=rcoelhol/CN=754088/CN=Rafael Coelho Lopes De Sa" rclsa
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=owen/CN=661677/CN=Owen Long" owen
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=sseyedi/CN=718535/CN=Hossein Seyedi" sseyedi
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=cgeorge/CN=711927/CN=Christopher George" cgeorge
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=aaivazis/CN=757057/CN=Alexander Kenneth Aivazis" aaivazis
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=kburt/CN=738061/CN=Kira Fawn Burt" kburt
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jbradmil/CN=735863/CN=John William Bradmiller-Feld" jbradmil
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=capalmer/CN=694531/CN=Chris Palmer" capalmer
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=manuelf/CN=660773/CN=Manuel Franco Sevilla" manuelf
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=dklein/CN=747387/CN=Daniel Klein" dsklein
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jaehyeok/CN=704526/CN=Jae Hyeok Yoo" jaehyeok
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mderdzin/CN=760843/CN=Mark Derdzinski" mderdzinski
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=scasasso/CN=720565/CN=Stefano Casasso" scasasso
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hqu/CN=757862/CN=Huilin Qu" hqu
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=rheller/CN=743534/CN=Ryan Edward Heller" rheller
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=ekennedy/CN=700368/CN=Elizabeth Kennedy" ekennedy
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=areinsvo/CN=757206/CN=Allison Corry Reinsvold" areinsvo
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=gdyckes/CN=763369/CN=George Dyckes" iandyckes
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=isuarez/CN=709291/CN=Indara Suarez" isuarez
+    "/DC=com/DC=DigiCert-Grid/O=Open Science Grid/OU=People/CN=Edgar Mauricio Fajardo Hernandez 2020" efajardo
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jgwood/CN=709590/CN=John Garland Wood" jgwood
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=ana/CN=705315/CN=Ana Krasimirova Ovcharova" ana
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=sicheng/CN=748935/CN=Sicheng Wang" sicheng
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mliu/CN=680612/CN=Miaoyuan Liu" mliu
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=ocolegro/CN=759311/CN=Owen Robert Colegrove" ocolegro
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=sghiasis/CN=761296/CN=Seyyed Mohammad Ghiasi Shirazi" sghiasis
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=bsathian/CN=830610/CN=Balaji Venkat Sathia Narayanan" bsathian
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=deldred/CN=810282/CN=David Eldred" deldred
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=phchang/CN=725903/CN=Philip Chang" phchang
+    "/DC=com/DC=example/OU=People/CN=Example User 12345" test
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=dklein/CN=747387/CN=Daniel Stuart Klein" dsklein
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=sghiasis/CN=761296/CN=Seyyed Ghiasi Shirazi" sghiasis
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=dpgilber/CN=753392/CN=Dylan Paul Gilbert" dpgilber
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=rbhandar/CN=732397/CN=Rohan Bhandari" rbhandar
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=apatters/CN=759793/CN=Alex Steven Patterson" apatters
+    "/O=GRID-FR/C=FR/O=CNRS/OU=IPHC/CN=Marketa Jansova" mjansova
+    "/DC=org/DC=opensciencegrid/O=Open Science Grid/OU=Services/CN=dynamo.mit.edu" cmswriter
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=terrence/CN=637414/CN=Terrence Martin" tmartin
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=arpurohi/CN=761694/CN=Arnab Purohit" arpurohi
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=dspitzba/CN=753108/CN=Daniel Spitzbart" dspitzba
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=adorsett/CN=786519/CN=Alex Dorsett" adorsett
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=bemarsh/CN=759897/CN=Bennett James Marsh" bemarsh
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=bhashemi/CN=784123/CN=Bobak Taleb Hashemi" bhashemi
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=cfangmei/CN=726528/CN=Caleb Arthur Fangmeier" cfangmei
+    "/DC=org/DC=terena/DC=tcs/C=BE/O=Universiteit Gent/CN=Willem Verbeke wlverbek@UGent.be" wverbeke
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=sapta/CN=678578/CN=Saptaparna Bhattacharya" sapta
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=olivito/CN=663475/CN=Dominick Olivito" olivito
+    "/DC=com/DC=DigiCert-Grid/O=Open Science Grid/OU=People/CN=Bobak Hashemi 3302" bhashemi
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mcitron/CN=735956/CN=Matthew Daniel Citron" mcitron
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=lshchuts/CN=652558/CN=Lesya Shchutska" lshchuts
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=bkansal/CN=824300/CN=Bhumika Kansal" bkansal
+    "/DC=com/DC=DigiCert-Grid/O=Open Science Grid/OU=People/CN=Aneesh Manohar 1924" manohar
+    "/DC=org/DC=opensciencegrid/O=Open Science Grid/OU=People/CN=Samuel May 4330" sjmay
+    "/DC=org/DC=opensciencegrid/O=Open Science Grid/OU=People/CN=Rami Vanguri 4361" ramiv
+    "/DC=org/DC=cilogon/C=US/O=Columbia University/CN=Rami Vanguri A1960436" ramiv
+    "/DC=org/DC=cilogon/C=US/O=Columbia University/CN=Rami Vanguri B45340327" ramiv
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=usarica/CN=703557/CN=Ulascan Sarica" usarica
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jguiang/CN=825229/CN=Jonathan Guiang" jguiang
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=namin/CN=746430/CN=Nick J Amin" namin
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=smay/CN=824160/CN=Samuel May" smay
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jiling/CN=830574/CN=Jiahong Ling" jling
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mcollura/CN=739481/CN=Maria Giulia Collura" mcollura
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mequinna/CN=773463/CN=Melissa Kathryn Quinnan" mequinna
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jaebak/CN=837265/CN=Jaebak Kim" jaebak
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=shchauha/CN=758308/CN=Shubhanshu Chauhan" shchauha
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=prrout/CN=790519/CN=Prasant Kumar Rout" prrout
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=sixie/CN=671843/CN=Si Xie" sixie
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=zhicaiz/CN=761119/CN=Zhicai Zhang" zhicaiz
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mibryson/CN=839062/CN=Miranda Bryson" mbryson
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=spigazzi/CN=757770/CN=Simone Pigazzini" spigazzi
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=rlee/CN=841230/CN=Robert John Lee" rlee
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=ddavila/CN=815177/CN=Diego Davila Foyo" cmswriter
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=aashah/CN=761631/CN=Aashaq Hussain Shah" aashah
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=ryan/CN=821495/CN=Ryan Schmitz" ryan
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=rkansal/CN=840095/CN=Raghav Kansal" rkansal
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=gkole/CN=723589/CN=Gouranga Kole" gkole
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=rgerosa/CN=719415/CN=Raffaele Angelo Gerosa" rgerosa
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jiling/CN=830574/CN=Jerry Ling" jling
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=kdipetri/CN=758850/CN=Karri Folan Di Petrillo" kdipetri
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=yxiang/CN=839385/CN=Yifan Xiang" yxiang
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=legianni/CN=758112/CN=Leonardo Giannini" legianni
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=rembserj/CN=478143/CN=Jonas Rembser" rembserj
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=fechen/CN=841565/CN=Felex Chen" fechen
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=fsetti/CN=826181/CN=Francesco Setti" fsetti
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=sbarbaro/CN=847256/CN=Sabrina Barbaro" sbarbaro
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=zmei/CN=847257/CN=Zhengxian Mei" zmei
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=ewallace/CN=847648/CN=Ernest Wallace" ewallace
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=fmokhtar/CN=847669/CN=Farouk Mokhtar" fmokhtar
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=ksalyer/CN=784392/CN=Kaitlin Salyer" ksalyer
+    "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=yumiao/CN=849411/CN=Yulun Miao" yumiao
+{{- end }}
+

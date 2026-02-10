@@ -1,0 +1,155 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ $.Values.namespace }} 
+  name: xrootd-{{ $.Values.nodeID }}-hostnetwork
+  labels:
+    app: xrootd-{{ $.Values.nodeID }}-hostnetwork
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xrootd-{{ $.Values.nodeID }}-hostnetwork
+  template:
+    metadata:
+      labels:
+        app: xrootd-{{ $.Values.nodeID }}-hostnetwork
+    spec:
+      hostNetwork: true
+      securityContext:
+        fsGroup: 10940
+      tolerations:
+        #        - key: "nautilus.io/reservation"
+        #          operator: "Equal"
+        #          value: "scinet"
+        #          effect: "NoSchedule"
+      containers:
+        - name: xrootd-{{ $.Values.nodeID }}-hostnetwork
+          {{- if eq .Values.role "manager" }}
+          image: hub.opensciencegrid.org/sense/sense-redir:el8-20250911
+          {{ else }}
+          image: hub.opensciencegrid.org/ddavila/xrootd/xrootd-multiuser:20251126    
+          #image: hub.opensciencegrid.org/opensciencegrid/xrootd-standalone:24-release-20250921-0815
+          {{- end }}
+          env:
+            # This env var must be set in order for the cmsd process to be started by the image
+            # The redirector value is set in the values file
+            - name: XC_LOCAL_REDIRECTORS
+              value: foo
+          ports:
+            - containerPort: 1095
+          resources:
+            limits:
+              cpu: {{ $.Values.cores_lim }}
+              memory: {{ $.Values.memory_lim }}
+            requests:
+              cpu: {{ $.Values.cores_req }}
+              memory: {{ $.Values.memory_req }}
+          securityContext:
+            capabilities:
+              add:
+              - NET_RAW
+              - NET_ADMIN
+              - CAP_SETUID
+              - CAP_SETGID
+              - CAP_SETFCAP
+          volumeMounts:
+            #- name: tmpfs-volume
+            - name: hostpath-ceph
+              mountPath: /rucio/
+            - name: xroot-voms-mapfile
+              mountPath: /etc/grid-security/voms-mapfile
+              subPath: voms-mapfile
+            - name: xroot-grid-mapfile
+              mountPath: /etc/grid-security/grid-mapfile
+              subPath: grid-mapfile
+            - name: xroot-authfile
+              mountPath: /etc/xrootd/Authfile
+              subPath: Authfile
+            - name: xroot-conf
+              mountPath: /etc/xrootd/xrootd-standalone.cfg
+              subPath: xrootd-standalone.cfg
+            - name: xroot-scitokens
+              mountPath: /etc/xrootd/scitokens.cfg
+              subPath: scitokens.cfg
+            - name: macaroon
+              mountPath: /etc/xrootd/macaroon-secret
+              subPath: macaroon-secret
+            - name: hostpath-passwd
+              mountPath: /etc/passwd
+            - name: hostpath-group
+              mountPath: /etc/group
+            - name: certs
+              mountPath: /etc/grid-security/hostcert.pem
+              subPath: hostcert.pem
+            - name: certs
+              mountPath: /etc/grid-security/hostkey.pem
+              subPath: hostkey.pem
+      volumes:
+      - name: hostpath-ceph
+        hostPath:
+          path: /ceph/cms_ech/
+            #path: /ceph/cms_ech/sense-tests/
+            #path: /ceph/cms/mini-challenge/
+          type: Directory
+      - name: hostpath-passwd
+        hostPath:
+          path: /etc/passwd
+          type: File
+      - name: hostpath-group
+        hostPath:
+          path: /etc/group
+          type: File
+      - name: xroot-grid-mapfile
+        configMap:
+          name: xroot-grid-mapfile
+          defaultMode: 0720
+          items:
+          - key: grid-mapfile
+            path: grid-mapfile
+      - name: xroot-voms-mapfile
+        configMap:
+          name: xroot-voms-mapfile
+          defaultMode: 0720
+          items:
+          - key: voms-mapfile
+            path: voms-mapfile
+      - name: xroot-authfile
+        configMap:
+          name: xroot-authfile
+          defaultMode: 0720
+          items:
+          - key: Authfile
+            path: Authfile
+      - name: xroot-scitokens
+        configMap:
+          name: xroot-scitokens
+          defaultMode: 0720
+          items:
+          - key: scitokens.cfg
+            path: scitokens.cfg
+      - name: xroot-conf
+        configMap:
+          name: xroot-config
+          defaultMode: 0720
+          items:
+          - key: xrootd-standalone.cfg
+            path: xrootd-standalone.cfg
+      - name: macaroon
+        secret:
+          defaultMode: 420
+          items:
+          - key: macaroon-secret
+            path: macaroon-secret
+          secretName: macaroon
+      - name: certs
+        secret:
+          defaultMode: 420
+          items:
+          - key: hostcert.pem
+            path: hostcert.pem
+          - key: hostkey.pem
+            path: hostkey.pem
+          secretName: {{ $.Values.certs }}
+      nodeSelector:
+          kubernetes.io/hostname: {{ $.Values.hostname }}

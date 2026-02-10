@@ -1,0 +1,15 @@
+{{- $myConfigMap := lookup "v1" "ConfigMap" .Release.Namespace "xroot-voms-mapfile" -}}
+{{- if not $myConfigMap -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ $.Values.namespace }} 
+  name: xroot-voms-mapfile
+data:
+  voms-mapfile: |
+    "/cms/Role=production/Capability=NULL" cmswriter
+    "/cms/Role=lcgadmin/Capability=NULL" cmswriter
+    "/cms/*" uscms
+    "/dteam/*" dteam
+{{- end }}
+

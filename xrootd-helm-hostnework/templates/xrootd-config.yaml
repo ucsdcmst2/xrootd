@@ -1,0 +1,105 @@
+{{- $myConfigMap := lookup "v1" "ConfigMap" .Release.Namespace "xroot-config" -}}
+{{- if not $myConfigMap -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ $.Values.namespace }} 
+  name: xroot-config
+data:
+  xrootd-standalone.cfg: |
+    if exec xrootd
+    xrd.port 1095
+    fi
+
+    all.adminpath /var/spool/xrootd
+    all.pidpath /run/xrootd
+    all.role {{ $.Values.role }}
+    all.manager {{ $.Values.redirector }} 1214
+    all.sitename T2_US_UCSD-ceph
+
+    macaroons.secretkey /etc/xrootd/macaroon-secret
+    ofs.authlib ++ libXrdMacaroons.so
+    ofs.authlib ++ libXrdAccSciTokens.so
+    oss.localroot /rucio
+    all.export / r/w
+    xrootd.seclib /usr/lib64/libXrdSec.so
+    sec.protocol /usr/lib64 gsi -certdir:/etc/grid-security/certificates \
+            -cert:/etc/grid-security/xrd/xrdcert.pem \
+            -key:/etc/grid-security/xrd/xrdkey.pem \
+            -crl:try \
+            -vomsfun:libXrdVoms.so \
+            -vomsfunparms:certfmt=pem|grpopt=useall \
+            -gmapopt:trymap \
+            -gmapto:0 \
+            -gridmap:/etc/grid-security/grid-mapfile
+
+    voms.mapfile /etc/grid-security/voms-mapfile
+    ofs.authorize
+    acc.authdb /etc/xrootd/Authfile
+    xrd.timeout idle 30m
+
+    if exec xrootd
+      xrd.protocol http:1095 /usr/lib64/libXrdHttp.so
+      http.gridmap /etc/grid-security/grid-mapfile
+      http.secxtractor /usr/lib64/libXrdVoms.so
+      http.exthandler xrdtpc libXrdHttpTPC.so
+      http.exthandler xrdmacaroons libXrdMacaroons.so
+      http.header2cgi Authorization authz
+      http.listingdeny yes
+      http.desthttps yes
+      http.staticpreload http://static/robots.txt /etc/xrootd/ban-robots.txt
+      xrd.tls /etc/grid-security/xrd/xrdcert.pem /etc/grid-security/xrd/xrdkey.pem
+      xrd.tlsca certdir /etc/grid-security/certificates
+      # SENSE hack
+      # broken in 5.8
+      #tpc.fixed_route 1
+    fi
+
+    xrootd.pmark defsfile curl https://scitags.docs.cern.ch/api.json
+    xrootd.pmark ffdest us.scitags.org:10514
+    xrootd.pmark domain any
+    xrootd.pmark map2exp path /store cms
+    xrootd.pmark map2act cms default default
+    #xrootd.pmark debug
+    #xrootd.pmark trace
+
+    {{- if eq .Values.role "manager" }}
+    # SENSE Redirector plugin
+    if exec xrootd
+      xrootd.redirlib /opt/libRDRPI.so subnet_size=64
+    fi
+    {{- end }}
+
+    # =============== Multi-user plugin ==================#
+    if exec xrootd
+      ofs.osslib ++ libXrdMultiuser.so
+    else
+      ofs.osslib libXrdMultiuser.so default
+    fi
+    
+    # Enable the checksum wrapper
+    ofs.ckslib * libXrdMultiuser.so
+    
+    xrootd.chksum max 50 adler32
+    
+    # The checksum plugin that is included in the multiuser can also
+    # checksum while it is writing a file.  To turn this on, uncomment the
+    # following line:
+    multiuser.checksumonwrite on
+    multiuser.umask 0002
+
+    # =====================================================#
+
+    # Debug Verbosity
+    #pss.setopt DebugLevel 1
+    #xrd.trace all
+    #xrootd.trace all
+    #ofs.trace all
+    #http.trace all
+    #scitokens.trace debug
+    
+    # Regular Verbosity
+    xrootd.trace emsg login stall open
+    ofs.trace open
+{{- end }}
+
