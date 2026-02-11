@@ -1,0 +1,5 @@
+used this as base:
+https://github.com/sdn-sense/other/blob/main/haproxy/statefulset.yaml
+
+- cert.pem is just a concatenation of hostcert.pem and hostkey.pem
+- I have a multus template to create the haproxy in the k8s controller of UCSD
