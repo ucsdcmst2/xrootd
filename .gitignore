@@ -3,3 +3,4 @@ xrootd-helm-multi/trash/
 xrootd-helm-hostnework/secrets/
 xrootd-helm-hostnework/trash
 *.pem
+macaroon-secret

@@ -1,0 +1,8 @@
+"/cms/Role=production/Capability=NULL" cmswriter
+"/cms/Role=lcgadmin/Capability=NULL" cmswriter
+"/cms/Role=pilot/Capability=NULL" uscms
+"/cms/uscms/Role=pilot/Capability=NULL" uscms
+"/cms/local/Role=pilot/Capability=NULL" uscms
+"/cms/*" uscms
+"/dteam/*" dteam
+"/wlcg/Role=test" dteamprod

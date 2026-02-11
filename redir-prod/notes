@@ -1,0 +1,5 @@
+yum install voms
+curl http://uaf-1.t2.ucsd.edu/sense/docker/alma8.zip -o alma8.zip
+unzip alma8.zip
+
+rpm -i install el8/x86_64/xrootd-voms-5.8.3.post47+git5bca9c038-1.el8.x86_64.rpm 
